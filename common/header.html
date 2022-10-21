@@ -1,0 +1,46 @@
+<script type="text/discourse-plugin" version="0.8">
+
+var UMBGRSW = {
+
+    // groupName should be either "groupname" or "!groupname"
+    switch_display: function(target, groupName) {
+
+        // parse off the optional leading "!"
+        var isNegated = false;
+        if ( "!" == groupName.charAt(0) ) {
+            groupName = groupName.substring(1);
+            isNegated = true;
+        }
+
+        // Is the current user in the specified group?
+        var inGroup = false;
+        if (   api.getCurrentUser() // logged in?
+            && api.getCurrentUser().groups.any(g => g.name === groupName)
+            )
+        {
+            inGroup = true;
+        }
+
+        // Remove the target's contents when appropriate
+        if ( (!isNegated && !inGroup) || (isNegated && inGroup) ) {
+            $(target).replaceWith('');
+        }
+
+    }
+}
+
+$.fn.umbgrsw = function() {
+    this.each(
+        function() {
+            UMBGRSW.switch_display(this, $(this).data('umbgrsw'));
+        }
+    );
+    return this;
+};
+
+api.decorateCooked(
+    $elem => $elem.children('.cooked div[data-umbgrsw]').umbgrsw(),
+    { id: 'umbgrsw' }
+);
+
+</script>
