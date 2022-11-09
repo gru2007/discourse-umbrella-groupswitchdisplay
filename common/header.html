@@ -25,7 +25,14 @@ var UMBGRSW = {
         if ( (!isNegated && !inGroup) || (isNegated && inGroup) ) {
             $(target).replaceWith('');
         }
-
+        else {
+            // Move target's children up. In either case here we're
+            // hiding the DIVs which triggered us; Obfuscation, but
+            // also makes us play nice with things that want to parse
+            // the cooked post and don't want to find extra wonky DIVs.
+            var kids = $(target).children();
+            $(target).replaceWith(kids);
+        }
     }
 }
 
