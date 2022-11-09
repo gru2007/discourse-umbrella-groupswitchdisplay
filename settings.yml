@@ -1,4 +1,9 @@
 default_content:
-  default: "<p><i>Sample</i> default content. (This value is set in the component's preferences.)</p>"
+  type: string
+  textarea: true
   description:
     en: "This content will be inlined if the specification for displaying the enclosed content starts with a % character."
+  default: |
+            <p><i>Sample</i> default content.
+            (This value is set in the component's
+            preferences.)</p>
