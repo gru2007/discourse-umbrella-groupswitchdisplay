@@ -1,9 +1,19 @@
 <script type="text/discourse-plugin" version="0.8">
 
+const defaultContent = settings.default_content;
+
 var UMBGRSW = {
 
     // groupName should be either "groupname" or "!groupname"
     switch_display: function(target, groupName) {
+
+        // detect character indicating we should emplace the value of the
+        // 'default_content' setting
+        var emplaceDefault = false;
+        if ( "%" == groupName.charAt(0) ) {
+            groupName = groupName.substring(1);
+            emplaceDefault = true;
+        }
 
         // parse off the optional leading "!"
         var isNegated = false;
@@ -26,12 +36,17 @@ var UMBGRSW = {
             $(target).replaceWith('');
         }
         else {
-            // Move target's children up. In either case here we're
-            // hiding the DIVs which triggered us; Obfuscation, but
-            // also makes us play nice with things that want to parse
-            // the cooked post and don't want to find extra wonky DIVs.
-            var kids = $(target).children();
-            $(target).replaceWith(kids);
+            if ( emplaceDefault ) {
+                $(target).replaceWith(defaultContent);
+            }
+            else {
+                // Move target's children up. In either case here we're
+                // hiding the DIVs which triggered us; Obfuscation, but
+                // also makes us play nice with things that want to parse
+                // the cooked post and don't want to find extra wonky DIVs.
+                var kids = $(target).children();
+                $(target).replaceWith(kids);
+            }
         }
     }
 }
