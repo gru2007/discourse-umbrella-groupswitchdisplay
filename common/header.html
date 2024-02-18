@@ -33,7 +33,7 @@ var UMBGRSW = {
         }
 
         // Remove the target's contents when appropriate
-        if ( (!isNegated && !inGroup) || (isNegated && inGroup) ) {
+        if (!inGroup) {
             $(target).replaceWith('');
         }
         else {
