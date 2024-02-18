@@ -56,6 +56,8 @@ var UMBGRSW = {
 $.fn.umbgrsw = function() {
     this.each(
         function() {
+            console.log(api.h('b', ['hello', 'world']));
+            console.log(api.getCurrentUser());
             UMBGRSW.switch_display(this, $(this).data('umbgrsw'));
         }
     );
