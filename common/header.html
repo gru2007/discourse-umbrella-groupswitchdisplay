@@ -1,7 +1,7 @@
 <script type="text/discourse-plugin" version="0.8">
 
 const defaultContent = settings.default_content;
-const user = api.getCurrentUser()
+const user = api.getCurrentUser();
     
 var UMBGRSW = {
 
@@ -11,7 +11,7 @@ var UMBGRSW = {
         // detect character indicating we should emplace the value of the
         // 'default_content' setting
         var emplaceDefault = false;
-        console.log(Discourse.User.current());
+        console.log(user);
         if ( "%" == groupName.charAt(0) ) {
             groupName = groupName.substring(1);
             emplaceDefault = true;
