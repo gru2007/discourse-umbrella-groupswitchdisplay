@@ -1,7 +1,7 @@
 <script type="text/discourse-plugin" version="0.8">
 
 const defaultContent = settings.default_content;
-console.log(api.getCurrentUser());
+const user = api.getCurrentUser()
     
 var UMBGRSW = {
 
@@ -26,8 +26,8 @@ var UMBGRSW = {
 
         // Is the current user in the specified group?
         var inGroup = false;
-        if (  Discourse.User.current()  // logged in?
-            && Discourse.User.current().groups.any(g => g.name === groupName)
+        if (  user// logged in?
+            && user.groups.any(g => g.name === groupName)
             )
         {
             inGroup = true;
