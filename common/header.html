@@ -1,16 +1,16 @@
 <script type="text/discourse-plugin" version="0.8">
 
+const userApi = api.getCurrentUser();
 const defaultContent = settings.default_content;
-    
+
 var UMBGRSW = {
 
     // groupName should be either "groupname" or "!groupname"
-    switch_display: function(target, groupName, user) {
+    switch_display: function(target, groupName) {
 
         // detect character indicating we should emplace the value of the
         // 'default_content' setting
         var emplaceDefault = false;
-        console.log(api.h('b', ['hello', 'world']));
         if ( "%" == groupName.charAt(0) ) {
             groupName = groupName.substring(1);
             emplaceDefault = true;
@@ -25,15 +25,15 @@ var UMBGRSW = {
 
         // Is the current user in the specified group?
         var inGroup = false;
-        if (  user // logged in?
-            && user.groups.any(g => g.name === groupName)
+        if (   userApi // logged in?
+            && userApi.groups.any(g => g.name === groupName)
             )
         {
             inGroup = true;
         }
 
         // Remove the target's contents when appropriate
-        if (!inGroup) {
+        if ( (!isNegated && !inGroup) || (isNegated && inGroup) ) {
             $(target).replaceWith('');
         }
         else {
@@ -55,7 +55,7 @@ var UMBGRSW = {
 $.fn.umbgrsw = function() {
     this.each(
         function() {
-            UMBGRSW.switch_display(this, $(this).data('umbgrsw'),api.getCurrentUser());
+            UMBGRSW.switch_display(this, $(this).data('umbgrsw'));
         }
     );
     return this;
